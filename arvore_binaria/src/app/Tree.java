@@ -183,6 +183,8 @@ public class Tree {
       posOrder(root);
       System.out.print("\n Exibindo em pre-ordem: ");
       preOrder(root);
+      System.out.print("\n Exibindo em com subarvores invertidas: ");
+      inverseOrder(root, 1);
       System.out.print("\n Altura da arvore: " + altura(root));
       System.out.print("\n Quantidade de folhas: " + folhas(root));
       System.out.print("\n Quantidade de Nós: " + contarNos(root));
@@ -213,6 +215,21 @@ public class Tree {
         posOrder(atual.esq);
         posOrder(atual.dir);
         System.out.print(atual.item + " ");
+      }
+    }
+
+    public void inverseOrder(No atual, int onces) {
+      if (atual != null) {
+        if (onces == 1) {
+          System.out.print(atual.item + " ");
+          onces++;
+          inverseOrder(atual, onces);
+        } else {
+          onces++;
+          inverseOrder(atual.esq, onces);
+          inverseOrder(atual.dir, onces);
+          System.out.print(atual.item + " ");
+        }
       }
     }  
     
