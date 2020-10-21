@@ -1,5 +1,6 @@
 package app;
 
+import java.math.BigDecimal;
 
 public class Tree {
     private No root; // raiz
@@ -187,10 +188,15 @@ public class Tree {
       inverseOrder(root, 1);
       System.out.print("\n Altura da arvore: " + altura(root));
       System.out.print("\n Quantidade de folhas: " + folhas(root));
-      System.out.print("\n Quantidade de Nós: " + contarNos(root));
+      int quantidadeNos = contarNos(root);
+
+      System.out.print("\n Quantidade de Nós: " + quantidadeNos);
       if (root != null ) {  // se arvore nao esta vazia
          System.out.print("\n Valor minimo: " + min().item);
          System.out.println("\n Valor maximo: " + max().item);
+         double mediaValores = mediaValores(root, quantidadeNos, 0, 0);
+         System.out.println("\n Média dos valores: " + mediaValores);
+         System.out.println("\n Soma dos nós pares: " + somarNosPares(root, quantidadeNos, 0, 0));
       }
     }
   
@@ -231,7 +237,48 @@ public class Tree {
           System.out.print(atual.item + " ");
         }
       }
-    }  
+    }
+
+    public double mediaValores(No atual, int max, int contador, int sum) {
+        if (atual != null && (contador - 1) < max) {
+          contador++;
+          sum += atual.item;
+          if (atual.esq != null) {
+            return mediaValores(atual.esq, max, contador, sum);
+          }
+          
+          if (atual.dir != null) {
+            return mediaValores(atual.dir, max, contador, sum);
+          }
+        }
+        
+        double dividir = (Float.parseFloat(""+sum) / Float.parseFloat(""+max));
+        
+        return dividir;
+    }
+
+    public int somarNosPares(No atual, int max, int contador, int sum) {
+      if (
+        atual != null
+        && (contador - 1) < max
+      ) {
+        contador++;
+
+        if ((atual.item % 2) == 0) {
+          sum += atual.item;
+        }
+
+        if (atual.esq != null) {
+          return somarNosPares(atual.esq, max, contador, sum);
+        }
+        
+        if (atual.dir != null) {
+          return somarNosPares(atual.dir, max, contador, sum);
+        }
+      }
+      
+      return sum;
+    }
     
     public int altura(No atual) {
        if(atual == null || (atual.esq == null && atual.dir == null)) {
